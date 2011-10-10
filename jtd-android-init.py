@@ -143,7 +143,7 @@ if output.find("emulator") == -1:
 
   print("Starting emulator...\n")
   newEmulatorInstance = True
-  emulatorProc = subprocess.Popen([EMULATOR_PATH, "-avd", AVD_NAME])
+  emulatorProc = subprocess.Popen([EMULATOR_PATH, "-avd", AVD_NAME], stdout=subprocess.PIPE)
 
 else:
 
