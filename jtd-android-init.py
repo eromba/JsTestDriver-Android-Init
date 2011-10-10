@@ -113,8 +113,10 @@ try:
 except (urlError):
   print("JsTestDriver not detected\nStarting JsTestDriver server...\n")
   newServerInstance = True
-  subprocess.Popen(["java", "-jar", JTD_PATH, "--port", JTD_PORT],\
-    creationflags=subprocess.CREATE_NEW_CONSOLE)
+  if os.name == 'nt':
+    subprocess.Popen(["cmd", "/c", "start", "java", "-jar", JTD_PATH, "--port", JTD_PORT])
+  else:
+    subprocess.Popen(["xterm", "-e", "java", "-jar", JTD_PATH, "--port", JTD_PORT])
 
 
 #
