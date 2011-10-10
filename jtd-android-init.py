@@ -85,6 +85,10 @@ def AndroidBrowserIsCaptured():
 #
 
 
+if len(sys.argv) != 6:
+  print("Usage: jtd-android-init.py [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]")
+  exit(1)
+
 JTD_PATH = sys.argv[1]
 JTD_PORT = sys.argv[2]
 SDK_PATH = sys.argv[3]
