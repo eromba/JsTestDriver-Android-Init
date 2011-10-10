@@ -34,6 +34,7 @@
 #
 
 
+import os
 import sys
 import subprocess
 import time
@@ -95,8 +96,8 @@ SDK_PATH = sys.argv[3]
 AVD_NAME = sys.argv[4]
 DELAY = sys.argv[5]
 
-ADB_PATH = SDK_PATH + "/platform-tools/adb.exe"
-EMULATOR_PATH = SDK_PATH + "/tools/emulator.exe"
+ADB_PATH = os.path.abspath( os.path.join(SDK_PATH, "platform-tools/adb") )
+EMULATOR_PATH = os.path.abspath( os.path.join(SDK_PATH, "tools/emulator") )
 
 
 #
