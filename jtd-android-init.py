@@ -18,7 +18,7 @@
 #
 # === Usage ===
 #
-#   jtd-android-init.bat [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]
+#   jtd-android-init.py [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]
 #
 #  - Path to JTD : The path to your JsTestDriver JAR file
 #  - Port        : The port on which to start the JsTestDriver server
