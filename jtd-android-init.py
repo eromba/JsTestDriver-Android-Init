@@ -125,8 +125,12 @@ except (urlError):
   else:
     subprocess.Popen(["xterm", "-e", "java", "-jar", JTD_PATH, "--port", JTD_PORT])
   print("JsTestDriver started")
+  if numArgs == 3:
+    print("Waiting 1 second for the server to start...")
+    time.sleep(1)
 
 if numArgs == 3:
+  print("\nInitialization complete")
   exit(0)
 
 
