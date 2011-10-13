@@ -18,8 +18,12 @@
 #
 # === Usage ===
 #
-#   jtd-android-init.py [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]
+#   To initialize JsTestDriver and the Android emulator:
+#     jtd-android-init.py [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]
 #
+#   To initialize only JsTestDriver:
+#     jtd-android-init.py [Path to JTD] [Port]
+# 
 #  - Path to JTD : The path to your JsTestDriver JAR file
 #  - Port        : The port on which to start the JsTestDriver server
 #  - Path to SDK : The path to your local Android SDK directory
@@ -86,18 +90,21 @@ def AndroidBrowserIsCaptured():
 #
 
 
-if len(sys.argv) != 6:
+numArgs = len(sys.argv)
+
+if numArgs != 3 and numArgs != 6:
   print("Usage: jtd-android-init.py [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]")
   exit(1)
 
 JTD_PATH = sys.argv[1]
 JTD_PORT = sys.argv[2]
-SDK_PATH = sys.argv[3]
-AVD_NAME = sys.argv[4]
-DELAY = sys.argv[5]
 
-ADB_PATH = os.path.abspath( os.path.join(SDK_PATH, "platform-tools/adb") )
-EMULATOR_PATH = os.path.abspath( os.path.join(SDK_PATH, "tools/emulator") )
+if numArgs == 6:
+  SDK_PATH = sys.argv[3]
+  AVD_NAME = sys.argv[4]
+  DELAY = sys.argv[5]
+  ADB_PATH = os.path.abspath( os.path.join(SDK_PATH, "platform-tools/adb") )
+  EMULATOR_PATH = os.path.abspath( os.path.join(SDK_PATH, "tools/emulator") )
 
 
 #
@@ -118,6 +125,9 @@ except (urlError):
   else:
     subprocess.Popen(["xterm", "-e", "java", "-jar", JTD_PATH, "--port", JTD_PORT])
   print("JsTestDriver started")
+
+if numArgs == 3:
+  exit(0)
 
 
 #

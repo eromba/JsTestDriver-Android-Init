@@ -16,7 +16,11 @@ capturing the emulator's web browser in the JsTestDriver server instance.
 
 ## Usage
 
+To initialize JsTestDriver and the Android emulator:  
 `jtd-android-init.py [Path to JTD] [Port] [Path to SDK] [AVD] [Delay]`
+
+To initialize only JsTestDriver:  
+`jtd-android-init.py [Path to JTD] [Port]`
 
 - **Path to JTD** : The path to your JsTestDriver JAR file
 - **Port** : The port on which to start the JsTestDriver server
@@ -29,3 +33,4 @@ capturing the emulator's web browser in the JsTestDriver server instance.
 
 - Does not support capturing the browser of a USB-connected Android device.
 - Does not support capturing multiple emulator instances.
+
