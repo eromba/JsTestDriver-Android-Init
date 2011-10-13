@@ -108,15 +108,16 @@ EMULATOR_PATH = os.path.abspath( os.path.join(SDK_PATH, "tools/emulator") )
 try:
   print("Detecting JsTestDriver server on port " + JTD_PORT + "...")
   f = openUrl("http://localhost:" + JTD_PORT)
-  print("JsTestDriver server already running\n")
+  print("Server detected")
   newServerInstance = False
 except (urlError):
-  print("JsTestDriver not detected\nStarting JsTestDriver server...\n")
+  print("Server not detected\nStarting JsTestDriver server...")
   newServerInstance = True
   if os.name == 'nt':
     subprocess.Popen(["cmd", "/c", "start", "java", "-jar", JTD_PATH, "--port", JTD_PORT])
   else:
     subprocess.Popen(["xterm", "-e", "java", "-jar", JTD_PATH, "--port", JTD_PORT])
+  print("JsTestDriver started")
 
 
 #
@@ -124,7 +125,7 @@ except (urlError):
 #
 
 
-print("Detecting Android emulator...")
+print("\nDetecting Android emulator...")
 
 adbProc = subprocess.Popen([ADB_PATH, "devices"], stdout=subprocess.PIPE)
 
@@ -133,7 +134,7 @@ output = adbProc.communicate()[0].decode("utf-8")
 
 if output.find("emulator") == -1:
 
-  print("Android emulator not detected")
+  print("Emulator not detected")
 
   # If we are starting a new emulator instance but have an existing server instance,
   # we must restart the server in order to flush any previously-captured browsers.
@@ -141,22 +142,21 @@ if output.find("emulator") == -1:
     print("\nPlease close JsTestDriver to flush any existing captured browsers.")
     sys.exit(1)
 
-  print("Starting emulator...\n")
+  print("Starting emulator...")
   newEmulatorInstance = True
   emulatorProc = subprocess.Popen([EMULATOR_PATH, "-avd", AVD_NAME], stdout=subprocess.PIPE)
+  print("Emulator started\n")
 
 else:
 
-  print("Emulator already running\n")
+  print("Emulator detected\n")
 
   # If the emulator's browser is NOT already captured, we treat this as a new
   # emulator instance.
   print
   if AndroidBrowserIsCaptured():
-    print("Android browser already captured")
     newEmulatorInstance = False
   else:
-    print("Android browser not yet captured")
     newEmulatorInstance = True
 
   # If we are starting a new server instance but have an existing emulator
@@ -193,10 +193,12 @@ subprocess.call([ADB_PATH, "shell", "am", "start", "-a",\
 # We check the server's status page every second until it reports that there
 # is at least 1 captured Android browser.
 if newEmulatorInstance:
-  print("Capturing browser...")
+  print("Capturing Android browser...")
   while not AndroidBrowserIsCaptured():
     time.sleep(1)
-  print("Browser captured!")
+  print("Browser captured")
+else:
+  print("Browser already captured")
 
 # If the browser is newly-captured, we must wait for the JavaScript on the
 # JsTestDriver page to initialize.
@@ -204,5 +206,5 @@ if newServerInstance or newEmulatorInstance:
   print("Waiting " + DELAY + " seconds for the browser to finish loading...")
   time.sleep(float(DELAY))
 
-print("\nReady for testing!")
+print("\nInitialization complete")
 
