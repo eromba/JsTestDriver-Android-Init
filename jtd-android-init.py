@@ -157,11 +157,23 @@ else:
   # the screen by pressing the Menu button.
   subprocess.call([ADB_PATH, "shell", "input", "keyevent", "3"])
 
+
+#
 # Unlock the Android emulator's screen
-# Unfortunately, there is no way to detect whether the screen is locked from
-# the command line. In any event, we unlock the screen by sending the
-# keyevent corresponding to the Menu button once the emulator is initialized.
-subprocess.call([ADB_PATH, "wait-for-device", "shell", "input", "keyevent", "82"])
+#
+
+
+# There is no way to detect whether the screen is locked from the command line,
+# but if it is, we can unlock it by sending the keyevent corresponding to the
+# Menu button once the emulator is initialized. This command may timeout if
+# the emulator takes too long to load, so we retry until it succeeds.
+print("\nUnlocking Android device...")
+while 1:
+  unlockProc = subprocess.Popen([ADB_PATH, "wait-for-device", "shell", "input", "keyevent", "82"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  result = unlockProc.communicate()[0].decode("utf-8")
+  if result.find("Killed") == -1:
+    print("Device unlocked\n")
+    break
 
 
 #
