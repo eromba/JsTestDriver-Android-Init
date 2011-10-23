@@ -184,7 +184,6 @@ print("\nRunning tests:\n")
 
 # Invoke JsTestDriver with the last arguments given on the command-line
 testArgs = ["java", "-jar", JTD_PATH, "--tests", JTD_TEST] + sys.argv[7:]
-
 testProc = subprocess.Popen(testArgs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 testResults = testProc.communicate()[0].decode("utf-8")
 print(testResults)
@@ -192,3 +191,5 @@ print(testResults)
 # Kill the JsTestDriver server
 jtdProc.kill()
 
+# Exit using the return code from the test-run
+sys.exit(testProc.returncode)
